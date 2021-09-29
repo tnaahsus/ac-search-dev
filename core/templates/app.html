@@ -1,0 +1,50 @@
+{% extends 'base.html' %} {% load static %}
+
+{% block content %}
+
+
+<div class="container mt-2">
+    <div class="row d-flex justify-content-center align-items-center">
+        <div class="col-lg-6 col-md-10 col-sm-12">
+            <div class="row d-flex justify-content-end mb-0 mt-1">
+                    <div class="col-8 card-title mb-1 h2">
+                        <i class="fab fa-reddit-square fs-1"></i>
+                        Reddit search
+                        <br />
+                        <div class="card-subtitle mt-1">
+                            <span class="fs-6">Search and analyse deleted content</span>
+                        </div>
+                    </div>
+                    <div class="col-4 mt-2">
+                        <div class="theme-switch-wrapper" style="float: right">
+                            <label class="theme-switch mx-2" for="checkbox">
+                                <input type="checkbox" id="checkbox" />
+                                <div class="slider round"></div>
+                            </label>
+                            <span id='dark-mode'>
+                            <i class="fas fa-lightbulb"></i>
+                        </span>
+                        <span id='light-mode' hidden>
+                            <i class="far fa-lightbulb"></i>
+                        </span>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="row px-2"><hr class="m-0 py-0 text-center" /></div>
+                {% include 'form.html' %}
+
+            <div class="row mt-2 px-2"><hr class="mt-0 py-0 text-center" /></div>
+                {% include 'content.html' %}
+
+            <div class="row mt-0 px-2"><hr class="m-0 py-0 text-center" /></div>
+                {% include 'footer.html' %}
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>
+{% endblock content %}
