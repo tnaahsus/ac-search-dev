@@ -11,7 +11,7 @@ class HomeView(generic.TemplateView):
 
 class SearchView(generic.ListView):
     template_name = 'app.html'
-    paginate_by = 1
+    paginate_by = 20
     count = 0
 
     def get_context_data(self, *args, **kwargs):
@@ -19,7 +19,6 @@ class SearchView(generic.ListView):
         context['count'] = self.count or 0
         context['query'] = self.request.GET.get('search')
         context['sub'] = self.request.GET.get('sub')
-        print(context)
         return context
 
     def get_queryset(self):
@@ -34,5 +33,3 @@ class SearchView(generic.ListView):
             self.count = len(qs)
             return qs
         return Post.objects.none()
-
-    html = ""
