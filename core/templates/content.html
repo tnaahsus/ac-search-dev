@@ -1,7 +1,14 @@
+{% load class_name %}
+
 <div class="col-md-12">
     <div class="blog-comment p-0">
         <ul class="comments">
-
+            {% for object in object_list %}
+                <div class='col-12 py-0'>
+                <h3 class='my-0 py-0'>{{ count }} results for <b>{{ query }}</b></h3>
+            </div>
+                {% with object|class_name as klass %}
+                    {% if klass == 'Post' %}
 <!--        POST ITEM -->
             <li class="clearfix">
                 <div class="post-comments">
@@ -15,7 +22,7 @@
 <!--                    USERNAME -->
                         <i class="fas fa-user"></i>
                         <a href="#" class="a-comment">
-                            <span class="">John Doe</span>
+                            <span class="">{{ object.author }}</span>
                         </a>
                         <span class="mx-1">|</span>
 
@@ -40,15 +47,12 @@
                         <div class="col-9">
         <!--                SHORT CONTENT -->
                             <span id="short-content1" class="short-content text-break">
-                                Example article short text, if longer than x characters
-                                will be truncated
+                               {{ object.title }}
                             </span>
 
         <!--                FULL CONTENT -->
                             <span id="full-content1" class="full-content text-break" style="display:none">
-                                Interdum et malesuada fames ac ante ipsum primis in faucibus.
-                                Aliquam lobortis accumsan tempor. Aliquam sollicitudin pulvinar est,
-                                quis convallis tellus.
+                                {{ object.text }}.
                             </span>
 
         <!--                DOTS -->
@@ -60,13 +64,14 @@
                                     Read More
                                 </a>|
                                 <span class="text-muted">
-                                    Dec 18, 2014
+                                    {{ object.date }}
                                 </span>
                             </div>
                         </div>
                     </div>
                 </div>
             </li>
+            {% elif klass == 'Comment' %}
 
 <!--        COMMENT ITEM -->
             <li class="clearfix">
@@ -81,7 +86,7 @@
 <!--                    USERNAME -->
                         <i class="fas fa-user"></i>
                         <a href="#" class="a-comment">
-                            <span class="">John Doe</span>
+                            <span class="">{{object.author}}</span>
                         </a>
                         <span class="mx-1">|</span>
 
@@ -94,16 +99,12 @@
 
 <!--                SHORT CONTENT -->
                     <span id="short-content" class="short-content text-break">
-                        Example comment short text, if longer than x characters
-                        will be truncated
+                        {{object.text}}
                     </span>
 
 <!--                FULL CONTENT -->
                     <span id="full-content" class="full-content text-break" style="display:none">
-                        sed porttitor tincidunt in.
-                        Interdum et malesuada fames ac ante ipsum primis in faucibus.
-                        Aliquam lobortis accumsan tempor. Aliquam sollicitudin pulvinar est,
-                        quis convallis tellus.
+                        {{ object.text }}
                     </span>
 
 <!--                DOTS -->
@@ -115,11 +116,31 @@
                             Read More
                         </a>|
                         <span class="text-muted">
-                            Dec 18, 2014
+                            {{ object.date }}
                         </span>
                     </div>
                 </div>
             </li>
+            {% endif %}
+            {% endwith %}
+            <div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?sub={{sub}}&search={{query}}&page=1">&laquo; first</a>
+            <a href="?sub={{sub}}&search={{query}}&page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?sub={{sub}}&search={{query}}&page={{ page_obj.next_page_number }}">next</a>
+            <a href="?sub={{sub}}&search={{query}}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+            {% endfor %}
         </ul>
     </div>
 </div>
