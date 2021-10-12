@@ -1,4 +1,4 @@
-<form method="get" class="form-control mt-2 mb-0 p-0" action="" id="eiou_claim"
+<form method="get" class="form-control mt-2 mb-0 p-0" action="/search" id="eiou_claim"
       style="background-color: transparent!important;border: none!important;">
     <div class="row mb-2">
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -16,6 +16,7 @@
             </label>
         </div>
     </div>
+    <!--
     <div class="row">
         <div class="col-12">
             <div class="input-group mb-2 text-center">
@@ -23,7 +24,7 @@
                     <span class="text-muted fw-bold"><i class="fas fa-search mx-2"></i></span>
                     <span class="fs-5" >Search</span>
                 </span>
-                <input type="text" class="form-control" id='search' name="search"
+                <input type="text" class="form-control" id='search1' name="search"
                        placeholder="keyword">
             </div>
         </div>
@@ -40,6 +41,26 @@
         </div>
     </div>
 
+    <button type="submit" class="btn w-100 py-2 btn-sm btn-primary">
+        SEARCH <i class="fas fa-search"></i>
+    </button> -->
+     <div class="row">
+        <div class="col-12">
+            <div class="input-group mb-3 text-center">
+                    <span class="fs-5 ">
+                            <label for="subreddits">
+<select class="form-select" id="subreddits" form="eiou_claim" name="subreddit">
+    <option selected>Subreddit</option>
+    <option value="r/cryptocurrency">r/Cryptocurrency</option>
+<!-- <option value="2">Two</option>
+<option value="3">Three</option> -->
+</select>
+</label>
+                        </span>
+                <input type="text" class="form-control" id='search' name="search" placeholder="keyword">
+            </div>
+        </div>
+    </div>
     <button type="submit" class="btn w-100 py-2 btn-sm btn-primary">
         SEARCH <i class="fas fa-search"></i>
     </button>
