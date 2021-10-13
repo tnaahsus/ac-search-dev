@@ -3,10 +3,15 @@
 <div class="col-md-12">
     <div class="blog-comment p-0">
         <ul class="comments">
-            {% for object in object_list %}
+             {% if count == 0 %}
+                <h4 class='my-0 py-0 ms-2 text-center'>No results for <b>{{ query }}</b></h4>
+
+            {% elif count > 0 %}
                 <div class='col-12 py-0'>
-                <h3 class='my-0 py-0'>{{ count }} results for <b>{{ query }}</b></h3>
-            </div>
+                <h4 class='my-0 py-0 ms-2 '>{{ count }} results for <b>{{ query }}</b></h4>
+                </div>
+            {% endif %}
+            {% for object in object_list %}
                 {% with object|class_name as klass %}
                     {% if klass == 'Post' %}
 <!--        POST ITEM -->
@@ -123,24 +128,26 @@
             </li>
             {% endif %}
             {% endwith %}
-            <div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?sub={{sub}}&search={{query}}&page=1">&laquo; first</a>
-            <a href="?sub={{sub}}&search={{query}}&page={{ page_obj.previous_page_number }}">previous</a>
-        {% endif %}
+            {% endfor %}
+        </ul>
+        <div class="pagination">
+                <span class="step-links">
 
-        <span class="current">
+                    <span class="current me-5 ms-2 ">
             Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
         </span>
 
+        {% if page_obj.has_previous %}
+            <a type="button" class="btn btn-outline-secondary border-0 btn-sm  " href="?sub={{sub}}&search={{query}}&page=1">&laquo; FIRST</a>
+            <a type="button" class="btn btn-outline-secondary border-0 btn-sm me-5 " href="?sub={{sub}}&search={{query}}&page={{ page_obj.previous_page_number }}">PREVIOUS</a>
+        {% endif %}
+
         {% if page_obj.has_next %}
-            <a href="?sub={{sub}}&search={{query}}&page={{ page_obj.next_page_number }}">next</a>
-            <a href="?sub={{sub}}&search={{query}}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            <a type="button" class="btn btn-outline-secondary border-0 btn-sm ms-5 "  href="?sub={{sub}}&search={{query}}&page={{ page_obj.next_page_number }}">NEXT</a>
+            <a type="button" class="btn btn-outline-secondary border-0 btn-sm  "  href="?sub={{sub}}&search={{query}}&page={{ page_obj.paginator.num_pages }}">LAST &raquo;</a>
         {% endif %}
     </span>
 </div>
-            {% endfor %}
-        </ul>
+
     </div>
 </div>
