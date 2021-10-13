@@ -26,7 +26,7 @@ class SearchView(generic.ListView):
         query = self.request.GET.get('search')
         filter1 = self.request.GET.get('filter1', None)
         filter2 = self.request.GET.get('filter2', None)
-        if query is not None:
+        if query is not None and query != '':
             if filter1 and filter2 is None:
                 self.post_result = Post.objects.search(query)
             elif filter2 and filter1 is None:

@@ -41,6 +41,7 @@ class CommentManager(models.Manager):
 
 class Comment(models.Model):
     # sub = models.CharField(max_length=20, verbose_name='Subreddit', default='cryptocurrency')
+    # comment_id = models.CharField(max_length=35, verbose_name='comment id', primary_key=True, unique=True)
     author = models.CharField(max_length=60)
     text = models.TextField(max_length=10000)
     date = models.DateTimeField(auto_now_add=True)
@@ -90,8 +91,9 @@ class PostManager(models.Manager):
 
 class Post(models.Model):
     # sub = models.CharField(max_length=20, verbose_name='Subreddit', default='cryptocurrency')
+    # post_id = models.CharField(max_length=35, verbose_name='post id', primary_key=True, unique=True)
     author = models.CharField(max_length=60)
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=512)
     text = models.TextField(max_length=10000)
     date = models.DateTimeField(auto_now_add=True)
 
