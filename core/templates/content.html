@@ -51,21 +51,23 @@
 
                         <div class="col-9">
         <!--                SHORT CONTENT -->
-                            <span id="short-content1" class="short-content text-break">
-                               {{ object.title }}
+                            <!-- <span id="object-id">{{ object.id }}</span> -->
+                            <span id="short-content{{ object.id }}" class="short-content text-break" >
+                                 {{ object.title }}
                             </span>
 
         <!--                FULL CONTENT -->
-                            <span id="full-content1" class="full-content text-break" style="display:none">
-                                {{ object.text }}.
+                            <span id="full-content{{ object.id }}" class="full-content text-break" style="display:none" >
+                                {{ object.text }}
                             </span>
 
         <!--                DOTS -->
-                            <span id="read-more-dots">...</span>
+                            <span class="read-more-dots">...</span>
+                        
 
         <!--                READ MORE AND DATE -->
                             <div class="text-end mt-1 mx-2" style="font-size: 0.9rem;">
-                                <a href="#full-content1" class="nav-toggle text-muted mx-2">
+                                <a href="#full-content{{ object.id }}" class="nav-toggle text-muted mx-2" style="cursor:pointer" >
                                     Read More
                                 </a>|
                                 <span class="text-muted">
@@ -102,22 +104,26 @@
                         </a>
                     </p>
 
-<!--                SHORT CONTENT -->
-                    <span id="short-content" class="short-content text-break">
-                        {{object.text}}
-                    </span>
+
+                    
+<!--                Short CONTENT -->
+                <span id="short-content{{ object.id }}" class="short-content text-break" >
+                    {{ object.text }}
+                </span>
 
 <!--                FULL CONTENT -->
-                    <span id="full-content" class="full-content text-break" style="display:none">
-                        {{ object.text }}
-                    </span>
+                <span id="full-content{{ object.id }}" class="full-content text-break" style="display:none" >
+                {{ object.text }}
+                </span>
 
 <!--                DOTS -->
-                    <span id="read-more-dots">...</span>
+                <span class="read-more-dots">...</span>
+
+                    <!--                DOTS -->
 
 <!--                READ MORE AND DATE -->
                     <div class="text-end mt-1 mx-2" style="font-size: 0.9rem;">
-                        <a href="#full-content" class="nav-toggle text-muted mx-2">
+                        <a href="#full-content{{object.id}}"  class="nav-toggle text-muted mx-2">
                             Read More
                         </a>|
                         <span class="text-muted">
