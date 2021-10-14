@@ -20,23 +20,26 @@ function switchTheme(e) {
 
 }
 
-toggleSwitch.addEventListener('change', switchTheme, false);
 
+
+toggleSwitch.addEventListener('change', switchTheme, false);
 $(document).ready(function () {
     $("[data-bs-toggle=popover]").popover();
     $("[data-bs-toggle=tooltip]").tooltip();
     $('.nav-toggle').click(function () {
-        var collapse_content_selector = $(this).attr('href');
-        var toggle_switch = $(this);
+        let collapse_content_selector = $(this).attr('href');
+        // console.log(collapse_content_selector)
+        let toggle_switch = $(this);
         $(collapse_content_selector).toggle(function () {
-            if ($(this).css('display') == 'none') {
+            if ($(this).css('display') == 'none' || $(this).text() == "Read More") {
+                $('#con').removeattr('hidden')
                 toggle_switch.html('Read More');
-                $('#read-more-dots').removeAttr('hidden')
             } else {
                 toggle_switch.html('Read Less');
-                 $('#read-more-dots').attr('hidden', true)
+                $('#con').attr('hidden',true)
             }
         });
-    });
 
+    });
+    
 });
