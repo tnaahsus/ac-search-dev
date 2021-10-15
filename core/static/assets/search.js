@@ -275,8 +275,7 @@ buttton.addEventListener('click', () => {
                     let shortText = text.slice(0, 150)
                     date = datas[i].date;
                     let shortDate = date.slice(0, 10)
-                    username = datas[i].username;
-                    let j = 1;
+                    username = datas[i].username;    
                     // console.log(s)
                     // console.log(type)
                     if (type == 'comment') {
@@ -391,7 +390,7 @@ buttton.addEventListener('click', () => {
                         let postElement = getElementFromString(string);
                         // console.log(parameterElement);
                         box2.appendChild(postElement);
-                        j++;
+                        
                     }
                     // console.log('post')
 
