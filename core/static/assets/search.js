@@ -434,8 +434,6 @@ buttton.addEventListener('click', () => {
                     }
 
                 }
-                // console.log('post')
-
             });
     }
 })
