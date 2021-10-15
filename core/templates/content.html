@@ -1,125 +1,44 @@
+{% load class_name %}
+
 <div class="col-md-12">
     <div class="blog-comment p-0">
         <ul class="comments">
+             {% if count == 0 %}
+                <h4 class='my-0 py-0 ms-2 text-center'>No results for <b>{{ query }}</b></h4>
 
-<!--        POST ITEM -->
-            <li class="clearfix">
-                <div class="post-comments">
-                    <p class="meta">
-
-<!--                    COMMENT OR POST ICON -->
-                        <i class="far fa-newspaper"
-                           style="font-size: 1.4rem!important; margin-right: 10px;">
-                        </i>
-
-<!--                    USERNAME -->
-                        <i class="fas fa-user"></i>
-                        <a href="#" class="a-comment">
-                            <span class="">John Doe</span>
-                        </a>
-                        <span class="mx-1">|</span>
-
-<!--                     REDDIT LINK-->
-                        <i class="fas fa-sign-out-alt"></i>
-                        <a href="#" class="a-comment">
-                            <span class="">View on Reddit</span>
-                        </a>
-                    </p>
-                    <div class="row">
-
-<!--                    THUMBNAIL -->
-                        <div class="col-3  text-center">
-                            <img class="img thumbnail" width='75px' height="55px"
-                                 src="https://b.thumbs.redditmedia.com/qTtigz4VcFX0pzdOJnG5HLKvLt3uoEWr-vZ0rvNEteQ.jpg" />
-                            <p class="text-muted mb-0 p-0">
-                                <small class="mx-1 "><i class="fas fa-thumbs-up"></i></small>
-                                <small class="mt-1">86</small>
-                            </p>
-                        </div>
-
-                        <div class="col-9">
-        <!--                SHORT CONTENT -->
-                            <span id="short-content1" class="short-content text-break">
-                                Example article short text, if longer than x characters
-                                will be truncated
-                            </span>
-
-        <!--                FULL CONTENT -->
-                            <span id="full-content1" class="full-content text-break" style="display:none">
-                                Interdum et malesuada fames ac ante ipsum primis in faucibus.
-                                Aliquam lobortis accumsan tempor. Aliquam sollicitudin pulvinar est,
-                                quis convallis tellus.
-                            </span>
-
-        <!--                DOTS -->
-                            <span id="read-more-dots">...</span>
-
-        <!--                READ MORE AND DATE -->
-                            <div class="text-end mt-1 mx-2" style="font-size: 0.9rem;">
-                                <a href="#full-content1" class="nav-toggle text-muted mx-2">
-                                    Read More
-                                </a>|
-                                <span class="text-muted">
-                                    Dec 18, 2014
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+            {% elif count > 0 %}
+                <div class='col-12 py-0'>
+                <h4 class='my-0 py-0 ms-2 '>{{ count }} results for <b>{{ query }}</b></h4>
                 </div>
+            {% endif %}
+            
+<!--        POST ITEM -->
+            <li class="clearfix" id="postBox"  >
+                
             </li>
 
 <!--        COMMENT ITEM -->
-            <li class="clearfix">
-                <div class="post-comments">
-                    <p class="meta">
-
-<!--                    COMMENT OR POST ICON -->
-                        <i class="far fa-comments"
-                           style="font-size: 1.4rem!important; margin-right: 10px;">
-                        </i>
-
-<!--                    USERNAME -->
-                        <i class="fas fa-user"></i>
-                        <a href="#" class="a-comment">
-                            <span class="">John Doe</span>
-                        </a>
-                        <span class="mx-1">|</span>
-
-<!--                     REDDIT LINK-->
-                        <i class="fas fa-sign-out-alt"></i>
-                        <a href="#" class="a-comment">
-                            <span class="">View on Reddit</span>
-                        </a>
-                    </p>
-
-<!--                SHORT CONTENT -->
-                    <span id="short-content" class="short-content text-break">
-                        Example comment short text, if longer than x characters
-                        will be truncated
-                    </span>
-
-<!--                FULL CONTENT -->
-                    <span id="full-content" class="full-content text-break" style="display:none">
-                        sed porttitor tincidunt in.
-                        Interdum et malesuada fames ac ante ipsum primis in faucibus.
-                        Aliquam lobortis accumsan tempor. Aliquam sollicitudin pulvinar est,
-                        quis convallis tellus.
-                    </span>
-
-<!--                DOTS -->
-                    <span id="read-more-dots">...</span>
-
-<!--                READ MORE AND DATE -->
-                    <div class="text-end mt-1 mx-2" style="font-size: 0.9rem;">
-                        <a href="#full-content" class="nav-toggle text-muted mx-2">
-                            Read More
-                        </a>|
-                        <span class="text-muted">
-                            Dec 18, 2014
-                        </span>
-                    </div>
-                </div>
+            <li class="clearfix" id="commentBox" >
             </li>
+            
         </ul>
+        <div class="pagination" style = "display:none" id="pagination">
+                <span class="step-links">
+                    <span class="current me-5 ms-2 ">
+
+        </span>
+
+        {% if page_obj.has_previous %}
+            <a type="button" class="btn btn-outline-secondary border-0 btn-sm  " href="?sub={{sub}}&search={{query}}&page=1">&laquo; FIRST</a>
+            <a type="button" class="btn btn-outline-secondary border-0 btn-sm me-5 " href="?sub={{sub}}&search={{query}}&page={{ page_obj.previous_page_number }}">PREVIOUS</a>
+        {% endif %}
+
+        {% if page_obj.has_next %}
+            <a type="button" class="btn btn-outline-secondary border-0 btn-sm ms-5 "  href="?sub={{sub}}&search={{query}}&page={{ page_obj.next_page_number }}">NEXT</a>
+            <a type="button" class="btn btn-outline-secondary border-0 btn-sm  "  href="?sub={{sub}}&search={{query}}&page={{ page_obj.paginator.num_pages }}">LAST &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
     </div>
 </div>
