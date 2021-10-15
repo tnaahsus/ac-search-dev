@@ -22,21 +22,3 @@ function switchTheme(e) {
 
 toggleSwitch.addEventListener('change', switchTheme, false);
 
-$(document).ready(function () {
-    $("[data-bs-toggle=popover]").popover();
-    $("[data-bs-toggle=tooltip]").tooltip();
-    $('.nav-toggle').click(function () {
-        var collapse_content_selector = $(this).attr('href');
-        var toggle_switch = $(this);
-        $(collapse_content_selector).toggle(function () {
-            if ($(this).css('display') == 'none') {
-                toggle_switch.html('Read More');
-                $('#read-more-dots').removeAttr('hidden')
-            } else {
-                toggle_switch.html('Read Less');
-                 $('#read-more-dots').attr('hidden', true)
-            }
-        });
-    });
-
-});
