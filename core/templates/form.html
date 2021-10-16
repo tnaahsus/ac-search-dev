@@ -1,4 +1,4 @@
-<form  class="form-control mt-2 mb-0 p-0"  id="eiou_claim"
+<form  class="form-control mt-2 mb-0 p-0 "  id="eiou_claim"
       style="background-color: transparent!important;border: none!important;" onkeypress="return event.keyCode != 13">
     <div class="row mb-2">
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -57,8 +57,11 @@
 </select>
 </label>
                         </span>
-                <input type="text" class="form-control" id='search' name="q" placeholder="keyword">
+                <input type="text" class="form-control"  id='search' name="q" placeholder="keyword" >
             </div>
+            <span id="invalid" style="display: none; color: rgb(250, 0, 0);margin-top: -17px;margin-left: 200px;margin-bottom: 10px;">
+                Please Enter some text
+              </span>
         </div>
     </div>
     <button type="button"  onclick="clearBox('commentBox')" class="btn w-100 py-2 btn-sm btn-primary" id="submitButton">
