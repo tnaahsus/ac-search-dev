@@ -74,7 +74,7 @@ function dataCollection(data) {
         document.getElementById('pagination').innerHTML += "Page " + pageNumber + " of " + totalPage;
     }
     document.getElementById('pagination').style.display = 'block';
-    if (totalPage == 1) {
+    if (count == paginatedValue) {
         document.getElementById('next').style.display = 'none';
         document.getElementById('last').style.display = 'none';
         document.getElementById('first').style.display = 'none';
@@ -83,12 +83,12 @@ function dataCollection(data) {
     else if (previous == null){
         document.getElementById('next').style.display = 'block';
         document.getElementById('last').style.display = 'block';
-        document.getElementById('first').style.display = 'block';
+        document.getElementById('first').disabled = true;
         document.getElementById('previous').disabled = true;
     }
     else if(next == null){
         document.getElementById('next').disabled = true;
-        document.getElementById('last').style.display = 'block';
+        document.getElementById('last').disabled = true;
         document.getElementById('first').style.display = 'block';
         document.getElementById('previous').style.display = 'block';
     }
