@@ -44,9 +44,9 @@ function dataCollection(data) {
     let next = data.next
     let count = data.count
     let paginatedValue = 4
-    let page = count / paginatedValue 
+    let page = count / paginatedValue
     let precision = page.toPrecision(2);
-    document.getElementById('results').innerHTML+= count+' results found'
+    document.getElementById('results').innerHTML += count + ' results found'
     if (precision <= 1) {
         totalPage = 1;
     }
@@ -80,24 +80,34 @@ function dataCollection(data) {
         document.getElementById('first').style.display = 'none';
         document.getElementById('previous').style.display = 'none';
     }
-    else if (previous == null){
+    else if (previous == null) {
         document.getElementById('next').style.display = 'block';
         document.getElementById('last').style.display = 'block';
-        document.getElementById('first').disabled = true;
-        document.getElementById('previous').disabled = true;
+        document.getElementById('first').style.display = 'None';
+        document.getElementById('previous').style.display = 'None';
     }
-    else if(next == null){
-        document.getElementById('next').disabled = true;
-        document.getElementById('last').disabled = true;
+    else if (next == null) {
+        document.getElementById('next').style.display = 'None';
+        document.getElementById('last').style.display = 'None';
         document.getElementById('first').style.display = 'block';
         document.getElementById('previous').style.display = 'block';
     }
-    else{
+    else {
         document.getElementById('next').style.display = 'block';
         document.getElementById('last').style.display = 'block';
         document.getElementById('first').style.display = 'block';
         document.getElementById('previous').style.display = 'block';
     }
+    let b = window.location.href
+    b = b.replace(/&page.+$/, `&page=${pageNumber + 1}`)
+    // console.log(b)
+    document.getElementById('next').href = b
+    b = b.replace(/&page.+$/, `&page=${totalPage}`)
+    document.getElementById('last').href = b
+    b = b.replace(/&page.+$/, `&page=${pageNumber - 1}`)
+    document.getElementById('previous').href = b
+    b = b.replace(/&page.+$/, `&page=1`)
+    document.getElementById('first').href = b
 }
 
 function apiCall(data) {
@@ -241,48 +251,47 @@ function apiCall(data) {
     }
 }
 //Submit button
-window.onload = ()=>{
-    let  a = window.location.href
-    console.log(a)
+window.onload = () => {
+    let a = window.location.href
     a = a.split('?').pop();
-    let c = a.split('q=').pop()
-    let d  = a.split('/').pop()
+    console.log(a)
+    let c = a.split('q=').pop().split('&')[0]
+    console.log(c)
+    let d = a.split('/').pop()
+    console.log(d)
     let b = a.split('f=').pop()
-    if(d == ''){
-        console.log('error')
-    }
-    else{
-        if(b[0] == 'c'  ){
+    if (c != '' && b[0] == "c" || b[0] == "p") {
+        button(a)
+        if (b[0] == 'c') {
             document.getElementById('comments').checked = true
             document.getElementById('posts').checked = false
         }
-        else if(b[1] == 'c'){
+        else if (b[1] == 'c') {
             document.getElementById('comments').checked = true
             document.getElementById('posts').checked = true
         }
         document.getElementById('search').value = c;
-        button(a)
     }
 }
 
-
 function reloader() {
     let filter = document.querySelector("input[name='f']:checked").value;
-    let search = document.getElementById('search');
+    let search = document.getElementById('search').value;
     let post = document.getElementById('posts');
     let comment = document.getElementById('comments');
+
     let form = document.getElementById('subreddits').value;
     let filterValue;
     if (post.checked && comment.checked) {
         filterValue = 'pc'
-        history.pushState(null, "", '/search?f=' + filterValue + '&sub=' + form + '&q=' + search.value);
+        history.pushState(null, "", '/search?f=' + filterValue + '&sub=' + form + '&q=' + search + '&page=1');
     }
     else if (post.checked || comment.checked) {
-        history.pushState(null, "", '/search?f=' + filter + '&sub=' + form + '&q=' + search.value);
-    }   
+        history.pushState(null, "", '/search?f=' + filter + '&sub=' + form + '&q=' + search + '&page=1');
+    }
+
+
 }
-
-
 
 function buttonClick() {
     clearBox('postBox')
@@ -292,7 +301,15 @@ function buttonClick() {
     reloader();
     a = window.location.href
     a = a.split('?').pop();
-    button(a)
+
+    let search = document.getElementById('search').value;
+    let post = document.getElementById('posts');
+    let comment = document.getElementById('comments');
+    if (search != '' && post.checked || comment.checked) {
+        console.log('hi')
+        button(a)
+    }
+
 }
 
 function button(url) {
@@ -308,90 +325,5 @@ function button(url) {
             dataCollection(data);
             apiCall(data);
         });
+
 }
-
-
-document.getElementById('next').addEventListener('click', ()=>{
-    clearBox('postBox')
-    clearBox('commentBox')
-    clearBox('pagination')
-    clearBox('results')
-    reloader();
-    let page = pageNumber+1
-    console.log(page)
-    fetch('/api?' + a + '&page='+ page, {
-        method: 'GET',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        }
-    })
-        .then(response => response.json())
-        .then(data => {
-            dataCollection(data);
-            apiCall(data);
-        });
-})
-document.getElementById('last').addEventListener('click', ()=>{
-    clearBox('postBox')
-    clearBox('commentBox')
-    clearBox('pagination')
-    clearBox('results')
-    fetch('/api?' + a + '&page=' + totalPage, {
-        method: 'GET',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        }
-    })
-        .then(response => response.json())
-        .then(data => {
-            dataCollection(data);
-            apiCall(data);
-        });
-})
-document.getElementById('previous').addEventListener('click',()=>{
-    clearBox('postBox')
-    clearBox('commentBox')
-    clearBox('pagination')
-    clearBox('results')
-    let page = pageNumber-1
-    fetch('/api?' + a + '&page='+ page, {
-        method: 'GET',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        }
-    })
-        .then(response => response.json())
-        .then(data => {
-            dataCollection(data);
-            apiCall(data);
-        });
-} )
-document.getElementById('first').addEventListener('click',()=>{
-    clearBox('postBox')
-    clearBox('commentBox')
-    clearBox('pagination')
-    clearBox('results')
-    fetch('/api?' + a + '&page=1' , {
-        method: 'GET',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        }
-    })
-        .then(response => response.json())
-        .then(data => {
-            dataCollection(data);
-            apiCall(data);
-        });
-} )
-
-
-
-
-
-
-
-
