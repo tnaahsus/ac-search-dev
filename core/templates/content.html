@@ -3,42 +3,59 @@
 <div class="col-md-12">
     <div class="blog-comment p-0">
         <ul class="comments">
-             {% if count == 0 %}
-                <h4 class='my-0 py-0 ms-2 text-center'>No results for <b>{{ query }}</b></h4>
+            {% if count == 0 %}
+            <h4 class='my-0 py-0 ms-2 text-center'>No results for <b>{{ query }}</b></h4>
 
             {% elif count > 0 %}
-                <div class='col-12 py-0'>
+            <div class='col-12 py-0'>
                 <h4 class='my-0 py-0 ms-2 '>{{ count }} results for <b>{{ query }}</b></h4>
-                </div>
+            </div>
             {% endif %}
-            
-<!--        POST ITEM -->
-            <li class="clearfix" id="postBox"  >
-                
+
+            <!--        POST ITEM -->
+            <li class="clearfix" id="postBox">
+
             </li>
 
-<!--        COMMENT ITEM -->
-            <li class="clearfix" id="commentBox" >
+            <!--        COMMENT ITEM -->
+            <li class="clearfix" id="commentBox">
             </li>
-            
+
         </ul>
-        <div class="pagination" style = "display:none" id="pagination">
-                <span class="step-links">
-                    <span class="current me-5 ms-2 ">
-
-        </span>
-
-        {% if page_obj.has_previous %}
-            <a type="button" class="btn btn-outline-secondary border-0 btn-sm  " href="?sub={{sub}}&search={{query}}&page=1">&laquo; FIRST</a>
-            <a type="button" class="btn btn-outline-secondary border-0 btn-sm me-5 " href="?sub={{sub}}&search={{query}}&page={{ page_obj.previous_page_number }}">PREVIOUS</a>
-        {% endif %}
-
-        {% if page_obj.has_next %}
-            <a type="button" class="btn btn-outline-secondary border-0 btn-sm ms-5 "  href="?sub={{sub}}&search={{query}}&page={{ page_obj.next_page_number }}">NEXT</a>
-            <a type="button" class="btn btn-outline-secondary border-0 btn-sm  "  href="?sub={{sub}}&search={{query}}&page={{ page_obj.paginator.num_pages }}">LAST &raquo;</a>
-        {% endif %}
-    </span>
-</div>
+        <div class="pagination" class=" me-5 ms-2">
+            
+            <ul class="pagination me-5">
+                <li class="page-item ">
+                    <a type="button" id="first"  style="display: none;"
+                        class="btn btn-outline-secondary border-0 btn-sm  "
+                        href="?sub={{sub}}&search={{query}}&page=1">&laquo; FIRST</a>
+                </li>
+                <li class="page-item me-3">
+                    <a type="button" id="previous" style="display: none;"
+                        class="btn btn-outline-secondary border-0 btn-sm me-5 "
+                        href="?sub={{sub}}&search={{query}}&page={{ page_obj.previous_page_number }}">PREVIOUS</a>
+                </li>
+            </ul>
+            <ul class="pagination">
+                <li class="page-item ">
+                    <span class="step-links" style="display:none" id="pagination">
+                    </span>
+                </li>
+            </ul>
+            <ul class="pagination ms-2">
+                <li class="page-item ms-5">
+                    <a type="button" id="next" style="display: none;"
+                        class="btn btn-outline-secondary border-0 btn-sm ms-5 "
+                        href="?sub={{sub}}&search={{query}}&page={{ page_obj.next_page_number }}">NEXT</a>
+                </li>
+                <li class="page-item">
+                    <a type="button" id="last" style="display: none;"
+                        class="btn btn-outline-secondary border-0 btn-sm  "
+                        href="?sub={{sub}}&search={{query}}&page={{ page_obj.paginator.num_pages }}">LAST &raquo;</a>
+                </li>
+            </ul>
+            
+        </div>
 
     </div>
 </div>
