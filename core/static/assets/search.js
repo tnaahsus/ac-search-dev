@@ -1,4 +1,3 @@
-// function for Read more buttons
 function myFunction(postid) {
     let dots = document.querySelector(` .card[data="${postid}"] .dots`);
     let moreText = document.querySelector(`.card[data="${postid}"] .more`);
@@ -48,6 +47,7 @@ const buttton = document.getElementById('submitButton');
 buttton.addEventListener('click', () => {
     clearBox('postBox')
     clearBox('pagination')
+    // clearBox('')
     let filter = document.querySelector("input[name='f']:checked").value;
     let post = document.getElementById('posts');
     let comment = document.getElementById('comments');
@@ -67,6 +67,7 @@ buttton.addEventListener('click', () => {
         })
             .then(response => response.json())
             .then(data => {
+                // console.log(data);
                 let previous = data.previous 
                 let count = data.count
                 let page = count / 12
@@ -87,6 +88,20 @@ buttton.addEventListener('click', () => {
                 }
                 document.getElementById('pagination').innerHTML += "Page " + pageNumber + " of " + totalPage;
                 document.getElementById('pagination').style.display = 'block';
+                if(totalPage == 1){
+                    document.getElementById('next').style.display ='none';
+                    document.getElementById('last').style.display ='none';
+                    document.getElementById('first').style.display ='none';
+                    document.getElementById('previous').style.display ='none';
+                }
+                else if(totalPage > pageNumber){
+                    document.getElementById('next').style.display ='block';
+                    document.getElementById('last').style.display ='block';
+                }
+                else if(totalPage == pageNumber){
+                    document.getElementById('first').style.display ='block';
+                    document.getElementById('previous').style.display ='block';
+                }
                 let datas = data.data
                 let type;
                 let post_id;
@@ -252,8 +267,22 @@ buttton.addEventListener('click', () => {
                 }
                 document.getElementById('pagination').innerHTML += "Page " + pageNumber + " of " + totalPage;
                 document.getElementById('pagination').style.display = 'block';
+                // console.log(true)
+                if(totalPage == 1){
+                    document.getElementById('next').style.display ='none';
+                    document.getElementById('last').style.display ='none';
+                    document.getElementById('first').style.display ='none';
+                    document.getElementById('previous').style.display ='none';
+                }
+                else if(totalPage > pageNumber){
+                    document.getElementById('next').style.display ='block';
+                    document.getElementById('last').style.display ='block';
+                }
+                else if(totalPage == pageNumber){
+                    document.getElementById('first').style.display ='block';
+                    document.getElementById('previous').style.display ='block';
+                }
                 let datas = data.data
-                let type;
                 let post_id;
                 let comment_id;
                 let text;
@@ -268,7 +297,7 @@ buttton.addEventListener('click', () => {
                     date = datas[i].date;
                     let shortDate = date.slice(0, 10)
                     username = datas[i].username;
-                    if(type = 'comment'){
+                    
                         let box1 = document.getElementById('commentBox');
                         let string = `<div class="post-comments card" data=${comment_id}>
                             <p class="meta">
@@ -318,7 +347,7 @@ buttton.addEventListener('click', () => {
 
 
 
-                }
+                
             });
     }
     //if post is checked
@@ -353,11 +382,23 @@ buttton.addEventListener('click', () => {
                 }
                 document.getElementById('pagination').innerHTML += "Page " + pageNumber + " of " + totalPage;
                 document.getElementById('pagination').style.display = 'block';
+                // console.log(true)
+                if(totalPage == 1){
+                    document.getElementById('next').style.display ='none';
+                    document.getElementById('last').style.display ='none';
+                    document.getElementById('first').style.display ='none';
+                    document.getElementById('previous').style.display ='none';
+                }
+                else if(totalPage > pageNumber){
+                    document.getElementById('next').style.display ='block';
+                    document.getElementById('last').style.display ='block';
+                }
+                else if(totalPage == pageNumber){
+                    document.getElementById('first').style.display ='block';
+                    document.getElementById('previous').style.display ='block';
+                }
                 let datas = data.data
-                // console.log(datas)
-                let type;
                 let post_id;
-                let comment_id;
                 let text;
                 let username;
                 let date;
@@ -370,7 +411,7 @@ buttton.addEventListener('click', () => {
                     date = datas[i].date;
                     let shortDate = date.slice(0, 10)
                     username = datas[i].username;
-                    if(type == 'post'){
+                    
                         let box2 = document.getElementById('postBox');
                         let string = ` <div class="post-comments card"  data=${post_id} >
                                 <p class="meta">
@@ -432,8 +473,8 @@ buttton.addEventListener('click', () => {
                         // console.log(parameterElement);
                         box2.appendChild(postElement);
                     }
+                
 
-                }
             });
     }
 })
