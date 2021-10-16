@@ -80,13 +80,19 @@ function dataCollection(data) {
         document.getElementById('first').style.display = 'none';
         document.getElementById('previous').style.display = 'none';
     }
-    else if (totalPage > pageNumber) {
+    else if (previous == null){
         document.getElementById('next').style.display = 'block';
+        document.getElementById('last').style.display = 'block';
+        document.getElementById('first').style.display = 'block';
+        document.getElementById('previous').disabled = true;
+    }
+    else if(next == null){
+        document.getElementById('next').disabled = true;
         document.getElementById('last').style.display = 'block';
         document.getElementById('first').style.display = 'block';
         document.getElementById('previous').style.display = 'block';
     }
-    else if (totalPage == pageNumber) {
+    else{
         document.getElementById('next').style.display = 'block';
         document.getElementById('last').style.display = 'block';
         document.getElementById('first').style.display = 'block';
@@ -96,7 +102,7 @@ function dataCollection(data) {
 
 function apiCall(data) {
     let datas = data.data
-    console.log(datas)
+    // console.log(datas)
     let title;
     let type;
     let post_id;
@@ -200,7 +206,7 @@ function apiCall(data) {
 
 <!--                     REDDIT LINK-->
                 <i class="fas fa-sign-out-alt"></i>
-                <a href="https://reddit.com/r/{{object.sub}}/comments/${post_id}/_/${comment_id}" class="a-comment">
+                <a href="https://reddit.com/r/sub/comments/${post_id}/_/${comment_id}" class="a-comment">
                     <span class="">View on Reddit</span>
                 </a>
             </p>
@@ -235,28 +241,54 @@ function apiCall(data) {
     }
 }
 //Submit button
+window.onload = ()=>{
+    let  a = window.location.href
+    console.log(a)
+    a = a.split('?').pop();
+    let c = a.split('q=').pop()
+    let d  = a.split('/').pop()
+    let b = a.split('f=').pop()
+    if(d == ''){
+        console.log('error')
+    }
+    else{
+        if(b[0] == 'c'  ){
+            document.getElementById('comments').checked = true
+            document.getElementById('posts').checked = false
+        }
+        else if(b[1] == 'c'){
+            document.getElementById('comments').checked = true
+            document.getElementById('posts').checked = true
+        }
+        document.getElementById('search').value = c;
+        button(a)
+    }
+}
+
 
 function reloader() {
     let filter = document.querySelector("input[name='f']:checked").value;
+    let search = document.getElementById('search');
     let post = document.getElementById('posts');
     let comment = document.getElementById('comments');
     let form = document.getElementById('subreddits').value;
-    let search = document.getElementById('search').value;
     let filterValue;
     if (post.checked && comment.checked) {
         filterValue = 'pc'
-        history.pushState(null, "", '/search?f=' + filterValue + '&sub=' + form + '&q=' + search);
+        history.pushState(null, "", '/search?f=' + filterValue + '&sub=' + form + '&q=' + search.value);
     }
     else if (post.checked || comment.checked) {
-        history.pushState(null, "", '/search?f=' + filter + '&sub=' + form + '&q=' + search);
-    }
-    
+        history.pushState(null, "", '/search?f=' + filter + '&sub=' + form + '&q=' + search.value);
+    }   
 }
+
+
 
 function buttonClick() {
     clearBox('postBox')
     clearBox('commentBox')
     clearBox('pagination')
+    clearBox('results')
     reloader();
     a = window.location.href
     a = a.split('?').pop();
@@ -283,6 +315,7 @@ document.getElementById('next').addEventListener('click', ()=>{
     clearBox('postBox')
     clearBox('commentBox')
     clearBox('pagination')
+    clearBox('results')
     reloader();
     let page = pageNumber+1
     console.log(page)
@@ -303,6 +336,7 @@ document.getElementById('last').addEventListener('click', ()=>{
     clearBox('postBox')
     clearBox('commentBox')
     clearBox('pagination')
+    clearBox('results')
     fetch('/api?' + a + '&page=' + totalPage, {
         method: 'GET',
         headers: {
@@ -320,6 +354,7 @@ document.getElementById('previous').addEventListener('click',()=>{
     clearBox('postBox')
     clearBox('commentBox')
     clearBox('pagination')
+    clearBox('results')
     let page = pageNumber-1
     fetch('/api?' + a + '&page='+ page, {
         method: 'GET',
@@ -338,6 +373,7 @@ document.getElementById('first').addEventListener('click',()=>{
     clearBox('postBox')
     clearBox('commentBox')
     clearBox('pagination')
+    clearBox('results')
     fetch('/api?' + a + '&page=1' , {
         method: 'GET',
         headers: {
@@ -351,3 +387,11 @@ document.getElementById('first').addEventListener('click',()=>{
             apiCall(data);
         });
 } )
+
+
+
+
+
+
+
+
