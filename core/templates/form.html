@@ -1,16 +1,16 @@
-<form  class="form-control mt-2 mb-0 p-0 "   id="eiou_claim" 
+<form  class="form-control mt-2 mb-0 p-0 "   id="eiou_claim"
       style="background-color: transparent!important;border: none!important;" onkeypress="return event.keyCode != 13" >
     <div class="row mb-2">
-        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <div class="btn-group btn-group-toggle" data-toggle="buttons" >
             <span class="input-group-text fs-5" style="width:35%">
                 <i class="text-muted fw-bold fas fa-sliders-h mx-2"></i>
                 Filters
             </span>
-            <label class="btn btn-secondary" id="commentLabel">
+            <label class="btn btn-secondary" id="postValid" >
                 <input class="align-middle" type="checkbox" id="posts" checked autocomplete="off" name="f" value="p">
                 <span class="align-middle"> Posts</span>
             </label>
-            <label class="btn btn-secondary" id="postLabel">
+            <label class="btn btn-secondary" id="commentValid">
                 <input class="align-middle" type="checkbox" id="comments" autocomplete="off" name="f" value="c">
                 <span class="align-middle">Comments</span>
             </label>
@@ -58,7 +58,7 @@
 </label>
                         </span>
                 <input type="text" class="form-control" id="search"  name="q" placeholder="keyword" >
-                
+
             </div>
         </div>
     </div>
@@ -66,5 +66,3 @@
         SEARCH <i class="fas fa-search"></i>
     </button>
 </form>
-
-
