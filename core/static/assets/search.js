@@ -9,7 +9,7 @@ function validation() {
         search.style.border = '2px solid red'
     }
     else {
-        search.style.border = '1px  black'
+        search.style.border = '0.6px solid #808080'
     }
     if( post.checked == false && comment.checked == false){
         postValid.style.border = '2px solid red'
@@ -111,7 +111,7 @@ function dataCollection(data) {
     let previous = data.prev
     let next = data.next
     let count = data.count
-    let paginatedValue = 25
+    let paginatedValue = 2
     let totalPage;
     let pageNumber;
 
@@ -140,8 +140,7 @@ function dataCollection(data) {
     }
     if (count == 0) {
         document.getElementById('pagination').innerHTML += "No results!!!";
-        document.getElementById('pagination').style.fontSize = '30px';
-        document.getElementById('pagination').style.marginLeft = '150px';
+        document.getElementById('pagination').style.fontSize = '50px';
     }
     else {
         document.getElementById('pagination').innerHTML += "Page " + pageNumber + " of " + totalPage;
@@ -150,36 +149,32 @@ function dataCollection(data) {
 
     // to show next,last,previous and first button according to the requirements
     if (count <= paginatedValue) {
-        document.getElementById('pagination').style.marginLeft = '200px'
-        document.getElementById('next').style.display = 'none';
-        document.getElementById('last').style.display = 'none';
-        document.getElementById('first').style.display = 'none';
-        document.getElementById('previous').style.display = 'none';
-    }
-    else if (count == 0) {
+        document.getElementById('pagination').style.marginLeft = '150px'
         document.getElementById('next').style.display = 'none';
         document.getElementById('last').style.display = 'none';
         document.getElementById('first').style.display = 'none';
         document.getElementById('previous').style.display = 'none';
     }
     else if (previous == null) {
-        document.getElementById('pagination').style.marginLeft = '210px'
-        document.getElementById('next').style.marginLeft = '170px'
+        document.getElementById('pagination').style.marginLeft = '-30px'
+        document.getElementById('next').style.marginLeft = '385px'
         document.getElementById('next').style.display = 'block';
         document.getElementById('last').style.display = 'block';
         document.getElementById('first').style.display = 'None';
         document.getElementById('previous').style.display = 'None';
     }
     else if (next == null) {
-        document.getElementById('pagination').style.marginLeft = '105px'
+        document.getElementById('pagination').style.marginLeft = '233px'
+        document.getElementById('first').style.marginLeft = '20px'
         document.getElementById('next').style.display = 'None';
         document.getElementById('last').style.display = 'None';
         document.getElementById('first').style.display = 'block';
         document.getElementById('previous').style.display = 'block';
     }
     else {
-        document.getElementById('pagination').style.marginLeft = '110px'
-        document.getElementById('next').style.marginLeft = '120px'
+        // document.getElementById('pagination').style.marginLeft = '10px'
+        document.getElementById('next').style.marginLeft = '130px'
+        document.getElementById('first').style.marginLeft = '20px'
         document.getElementById('next').style.display = 'block';
         document.getElementById('last').style.display = 'block';
         document.getElementById('first').style.display = 'block';
@@ -265,6 +260,7 @@ function dataAppender(data, _sub) {
             date = date.replace(/(\d{4})-(\d\d)-(\d\d)/, "$3-$2-$1")
             hour = createDate.split('T').pop().split(':')[0]
             minutes = createDate.slice(13, 16)
+            minutes = minutes + ' | '
         }
 
         let deldate;
@@ -281,6 +277,7 @@ function dataAppender(data, _sub) {
             deldate = deldate.replace(/(\d{4})-(\d\d)-(\d\d)/, "$3-$2-$1")
             delhour = deleteDate.split('T').pop().split(':')[0]
             delminutes = deleteDate.slice(13, 16)
+            delminutes = delminutes + ' | '
         }
 
         imageUrl = datas[i].image_url;
@@ -308,7 +305,7 @@ function dataAppender(data, _sub) {
                 
     <!--                     REDDIT LINK-->
     <i class="fas fa-sign-out-alt"></i>
-    <a href=""https://reddit.com/r/${sub}/comments/${post_id}" target="_blank" class="a-comment">
+    <a href="https://reddit.com/r/${sub}/comments/${post_id}" target="_blank" class="a-comment">
     <span class="">View on Reddit</span>
     </a>
             </p>
@@ -316,12 +313,12 @@ function dataAppender(data, _sub) {
             
             <!--                    THUMBNAIL -->
                 <div class="col-3  text-center">
-                <img class="img thumbnail" width='95px' height="75px"
-                src="${imageUrl}"  onerror="this.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKIAAACiCAMAAAD1LOYpAAAATlBMVEX///+fn5+enp6bm5vh4eGmpqaqqqrw8PDn5+f19fXb29v39/eYmJijo6P7+/v5+fm/v7+wsLC4uLjr6+vS0tLIyMi7u7vGxsbOzs7W1tamCAMPAAAFRUlEQVR4nO2c6ZajIBCFG3AXN1zz/i86mogWiElai5jTw/0zfUw0nyXLrRLm58fJycnJycnJycnJycnJycnJ6Y8qjDx0RSEaXh61lU8ouohftR4KoScYZwyfkFLGOBXnIYueMkqsabx4X5wjjAW3CHiH5CI+RVjZJhzFxZk4ltw64BTH8jhhYrMZAkZ2uM8UAQOXQdd6+6zKTweRsixAFwGXPxrGTgaRZUMdpzGq0rhuifyBo60xlc+Z+dHBm3whL6PnnnQ9X4CyGzLaomF+1iw7Nl978hb9U2PrM4UyCuTYc0rofItBiky2KPbZjHisv8gO/QlEeh3i6DOTJ8bwcsTwJrJpyKeZaMyUFyOmgz/ZzDsA41lr6nPXIkYVB1PcCBkYOu2liF6m2zhGkq9C9AgjugyMFyKGwZZwmgP0TnMh4o4V5t3XIEZ0aYcUGsMNyXWI/RJERoMqWHNI3XRdhhgvLZFVXp7nYya+0xovQ/Tkc2ZzbpdLc6zb68sQb/OJdHGBoS+tZ/MdiAOXQVwOldLAt1+CKHnWziE7EOu/A7GRPNVySHYYNnwHojyRUjnjeUS2RXUOvAyxJrJHZ49fjnzZo6lqdy5DzKtlHCRl4iVlto6TaoXputmlWYzYOP9RMANytUNfiCh/+fHz65+bdPlCp3Njmp+dg9ho37vS0hrdGBd6WeRKxFRsGXm1ybAuzV1iwVXjTbnYJqqfQSySskwMxep8IACSctIail8fQazHXJTxqjZ9VGac3+uxnGel6RsfQYyCe5szJslTOaIUVVCJcqcY8QnEZWbbr5LmxZPqpn1Eb5nZxlH5SIXQOiIgXC3DVyEmasXhCKNlxESviZiKNlLhrTGNTHYRb3RTE2F0j7GZhp9q21qtIhoIJ0bzu4WBTV/m25ZgE7EBhAz8SXUvM6mXF9q0BIuIw2q2xrkXvLOmWv40Ku+XjzdRtocICAnvCmhrmM6Yl6AWqkfZGmILY9iNHbXoYBwV8593SrVWi7ItxB4SlvfpDYaKwnS+6LR6snoHdhDzEhL2uTwKUJajJme7nmMLUYkXX+OVw9iyR2ynpRU64Rp5W4hPWp3SQstpKgkFxIbtV17QAmIqdgk1RlH8hCCGLBMUfhrbQkyfj4DKaNl5kHActJU7mDMtdES4akcvZt7VrBPNtN5KIdRG0yq0gQgbPzXPxmDmpmDAnt82D2CqfDAiIypNa8cvGN3FaiThpzyosRHrQG1aeydtGGFaAz3mdBwVUSF85q91p8t9mJ7CXGJMdwo0xGJN9V4RahnNeLKaQHvwQn4TICFWP/X7hCojD/QUH94sJXKFyWnExFeb0AutFPPYoqiGK9HkvycRSZb9inBhpCbCe42FaDqNCIa47YMzauxcjDJDte6ucMN4GnEVC95cOBWWgR+0e1WMzeJSPERmfHBmpfGT5aeptkQXDXHvwR2Q5saxEBEJNZuOhcgF7tKxHjCiIAKrjKWWM0zEkfDoitx9rQYSARGmRIhq1pH3LKKSWGKqoThztJKM4ipFMmOEtq+/fEx4lvbkdo99/VeIf3q57ws5RAw5RAz9D4jfvw1CrpSkm4XEaDq7meQjW3JmF3BwS86ysYkeedX8jhJZQzi8ha2TGTnL2ihEl9cvhb7DmxU94Gmpjy4KFr8dfUzrIj9id6siF69hdvT9Gz6n1WmfYNRXNf5KptVp2Hq8jD2uT2zhPkc4dpmW2ISknGxegv1ekSDM1n8nwEiHs921Hio/Qw9glvlieKvm+57iOkJXbW2rq5OTk5OTk5OTk5OTk5OTk5PT1foHNFdUBRcYsyYAAAAASUVORK5CYII=';"/>
-                    <p class="text-muted mb-0 p-0">
-                    <small class="mx-1 "><i class="fas fa-thumbs-up"></i></small>
-                    <small class="mt-1">${upVotes}</small>
+                <img class="img thumbnail" width='75px' height="55px"
+                src="${imageUrl}"  onerror="this.src='data:image/jpeg;base64,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';"/>
+                    <p class="text-muted mb-0 p-0 me-5 ">
                     </p>
+                    <small class="mx-1 text-muted mb-0 p-0 "><i class="fas fa-thumbs-up"></i></small>
+                    <small class="me-3 text-muted mb-0 p-0" >${upVotes}</small>
                     </div>
     
                 <div class="col-9">
@@ -342,10 +339,10 @@ function dataAppender(data, _sub) {
     <div class="text-end mt-4 mx-2" style="font-size: 0.9rem;">
     <span class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Created Date" style="font-size: 12px;">
           ${date} ${hour}${minutes}               
-    </span>|
+    </span>
     <span class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Deleted Date" style="font-size: 12px;">
         ${deldate} ${delhour}${delminutes} 
-        </span>|
+        </span>
                         <button   class="nav-toggle text-muted mx-2  border-0 myBtn" style="margin-left: -30px; cursor: pointer;" onclick="myFunction('${post_id}')"  >
                         Read More
                         </button>
@@ -401,16 +398,16 @@ function dataAppender(data, _sub) {
     
                        
                 <div class="text-end mt-1 mx-2" style="font-size: 0.9rem;">
-                <p class =" float-start">
+                <p class ="  float-start">
                 <small class="mx-1 "><i class="fas fa-thumbs-up"></i></small>
-                  <small class="mt-1 ">86</small>
+                  <small class="mt-1 ">${upVotes}</small>
                 </p>
                 <span class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Created Date" style="font-size: 12px;">
                         ${date} ${hour}${minutes}
-                        </span>|
+                        </span>
                         <span class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Deleted Date" style="font-size: 12px;">
                         ${deldate} ${delhour}${delminutes} 
-                            </span>|
+                            </span>
                     <button   class="nav-toggle text-muted mx-2 border-0 myBtn " style="cursor:pointer" onclick="myFunction('${comment_id}')"  >
                     Read More
                         </button>
