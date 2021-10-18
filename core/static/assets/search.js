@@ -11,7 +11,7 @@ function validation() {
     else {
         search.style.border = '0.6px solid #808080'
     }
-    if( post.checked == false && comment.checked == false){
+    if (post.checked == false && comment.checked == false) {
         postValid.style.border = '2px solid red'
         commentValid.style.border = '2px solid red'
     }
@@ -31,22 +31,24 @@ function clearBox(elementID) {
 window.onload = () => {
     let url = window.location.href;
     url = url.split('?').pop();
-    let sub = url.split('sub=').pop().split('&')[0]
-    let searchBar = url.split('q=').pop().split('&')[0];
-    let filterBar = url.split('f=').pop();
+    const argArray = new URLSearchParams(url)
+    let query = argArray.has('q') ? argArray.get('q') : '' // if query exists set query='query from url' else ''
+    let filter = argArray.has('f') ? argArray.get('f') : ''
+    let sub = argArray.has('sub') ? argArray.get('sub') : ''
+
     //to check the conditions before calling the api
-    if (searchBar != '' && (filterBar[0] == "c" || filterBar[0] == "p") && sub != '') {
-        validation();
-        apiCall(url, sub)
-        if (filterBar[0] == 'c') {
+    if (query !== '' && (filter[0] == "c" || filter[0] == "p") && sub !== '') {
+        if (filter[0] === 'c') {
             document.getElementById('comments').checked = true
             document.getElementById('posts').checked = false
         }
-        else if (filterBar[1] == 'c') {
+        else if (filter[1] === 'c') {
             document.getElementById('comments').checked = true
             document.getElementById('posts').checked = true
         }
-        document.getElementById('search').value = searchBar;
+        document.getElementById('search').value = query;
+        document.getElementById('subreddits').value = sub;
+        apiCall(url, sub)
         validation();
     }
 }
@@ -63,29 +65,26 @@ function buttonClick() {
     let comment = document.getElementById('comments');
     let form = document.getElementById('subreddits').value;
     let filterValue;
-    validation();
 
     //to check the conditions before pushing the url
     if (post.checked && comment.checked) {
         filterValue = 'pc'
-        history.pushState(null, "", '/search?f=' + filterValue + '&sub=' + form + '&q=' + search + '&page=1');
     }
-    else if (post.checked ) {
+    else if (post.checked) {
         filterValue = 'p'
-        history.pushState(null, "", '/search?f=' + filterValue + '&sub=' + form + '&q=' + search + '&page=1');
     }
-    else if (comment.checked ) {
+    else if (comment.checked) {
         filterValue = 'c'
-        history.pushState(null, "", '/search?f=' + filterValue + '&sub=' + form + '&q=' + search + '&page=1');
     }
-    let url = window.location.href
-    url = url.split('?').pop();
-    validation();
+    
     //to check the conditions before calling the api
-    if (search != '' && (post.checked || comment.checked)) {
-        // console.log('hi')
+    if (search != '' && (post.checked || comment.checked) && form!= '' ) {
+        history.pushState(null, "", '/search?f=' + filterValue + '&sub=' + form + '&q=' + search + '&page=1');
+        let url = window.location.href
+        url = url.split('?').pop();
         apiCall(url)
     }
+    else validation();
 }
 
 // api call function
@@ -114,7 +113,10 @@ function dataCollection(data) {
     let paginatedValue = 2
     let totalPage;
     let pageNumber;
-
+    document.getElementById('next').style.display = 'block';
+    document.getElementById('last').style.display = 'block';
+    document.getElementById('first').style.display = 'block';
+    document.getElementById('previous').style.display = 'block';
     //for result found in the content section 
     if (count != 0) {
         document.getElementById('results').innerHTML += count + ' results found'
@@ -141,6 +143,10 @@ function dataCollection(data) {
     if (count == 0) {
         document.getElementById('pagination').innerHTML += "No results!!!";
         document.getElementById('pagination').style.fontSize = '50px';
+        document.getElementById('next').style.display = 'none';
+        document.getElementById('last').style.display = 'none';
+        document.getElementById('first').style.display = 'none';
+        document.getElementById('previous').style.display = 'none';
     }
     else {
         document.getElementById('pagination').innerHTML += "Page " + pageNumber + " of " + totalPage;
@@ -148,37 +154,19 @@ function dataCollection(data) {
     document.getElementById('pagination').style.display = 'block';
 
     // to show next,last,previous and first button according to the requirements
-    if (count <= paginatedValue) {
-        document.getElementById('pagination').style.marginLeft = '150px'
-        document.getElementById('next').style.display = 'none';
-        document.getElementById('last').style.display = 'none';
-        document.getElementById('first').style.display = 'none';
-        document.getElementById('previous').style.display = 'none';
-    }
+    if(previous == null && next == null){
+       document.getElementById('next').style.display = 'none';
+       document.getElementById('last').style.display = 'none';
+       document.getElementById('first').style.display = 'none';
+       document.getElementById('previous').style.display = 'none';
+   }
     else if (previous == null) {
-        document.getElementById('pagination').style.marginLeft = '-30px'
-        document.getElementById('next').style.marginLeft = '385px'
-        document.getElementById('next').style.display = 'block';
-        document.getElementById('last').style.display = 'block';
-        document.getElementById('first').style.display = 'None';
-        document.getElementById('previous').style.display = 'None';
+        document.getElementById('first').style.pointerEvents ='none'
+        document.getElementById('previous').style.pointerEvents ='none'
     }
     else if (next == null) {
-        document.getElementById('pagination').style.marginLeft = '233px'
-        document.getElementById('first').style.marginLeft = '20px'
-        document.getElementById('next').style.display = 'None';
-        document.getElementById('last').style.display = 'None';
-        document.getElementById('first').style.display = 'block';
-        document.getElementById('previous').style.display = 'block';
-    }
-    else {
-        // document.getElementById('pagination').style.marginLeft = '10px'
-        document.getElementById('next').style.marginLeft = '130px'
-        document.getElementById('first').style.marginLeft = '20px'
-        document.getElementById('next').style.display = 'block';
-        document.getElementById('last').style.display = 'block';
-        document.getElementById('first').style.display = 'block';
-        document.getElementById('previous').style.display = 'block';
+        document.getElementById('next').style.pointerEvents ='none'
+        document.getElementById('last').style.pointerEvents ='none'
     }
 
     //to send href to the a tag of next,last,previousand first according to the page number
@@ -250,12 +238,12 @@ function dataAppender(data, _sub) {
         let date;
         let hour;
         let minutes;
-        if (createDate == null){
+        if (createDate == null) {
             date = ''
             hour = ''
             minutes = ''
         }
-        else{
+        else {
             date = createDate.slice(0, 10)
             date = date.replace(/(\d{4})-(\d\d)-(\d\d)/, "$3-$2-$1")
             hour = createDate.split('T').pop().split(':')[0]
@@ -265,14 +253,14 @@ function dataAppender(data, _sub) {
 
         let deldate;
         let delhour;
-        let delminutes ;
+        let delminutes;
         deleteDate = datas[i].delete_date;
-        if (deleteDate == null){
+        if (deleteDate == null) {
             deldate = ''
             delhour = ''
             delminutes = ''
         }
-        else{
+        else {
             deldate = deleteDate.slice(0, 10)
             deldate = deldate.replace(/(\d{4})-(\d\d)-(\d\d)/, "$3-$2-$1")
             delhour = deleteDate.split('T').pop().split(':')[0]
@@ -281,7 +269,7 @@ function dataAppender(data, _sub) {
         }
 
         imageUrl = datas[i].image_url;
-        
+
         upVotes = datas[i].upvotes;
         username = datas[i].username;
         title = datas[i].title;
