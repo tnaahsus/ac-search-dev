@@ -90,6 +90,7 @@ function buttonClick() {
 // api call function
 function apiCall(url, sub) {
     validation()
+    document.getElementById('loading').style.display="block";
     fetch('/api?' + url, {
         method: 'GET',
         headers: {
@@ -99,6 +100,7 @@ function apiCall(url, sub) {
     })
         .then(response => response.json())
         .then(data => {
+         document.getElementById('loading').style.display="none";
             dataCollection(data);
             dataAppender(data, sub);
         });
@@ -110,7 +112,8 @@ function dataCollection(data) {
     let previous = data.prev
     let next = data.next
     let count = data.count
-    let paginatedValue = 2
+    let paginatedValue =3;
+    let paginatedOrphan = 1;
     let totalPage;
     let pageNumber;
     document.getElementById('next').style.display = 'block';
@@ -125,11 +128,25 @@ function dataCollection(data) {
     // to find the page number and total pages
     let page = count / paginatedValue
     let precision = page.toPrecision(2);
+    let precisionDecimalval = precision - Math.floor(precision);
+
+    //if remaining objects in database is less than or equal to paginatedOrphan + paginatedValue then count of data will be 
+    //paginatedValue + paginatedOrphan 
+    let n = Math.floor((paginatedValue+paginatedOrphan)/paginatedValue) 
+    n = ((paginatedValue+paginatedOrphan)/paginatedValue) - n
+
+    //Calculation for total pages
     if (precision <= 1) {
         totalPage = 1;
     }
-    else {
-        totalPage = Math.round(precision)
+    //to compare the decimal values of precision and n because the decimal values of precision is less than or equal to the value of n
+    else if(precisionDecimalval <= n) { 
+       totalPage = Math.floor(precision)
+    //    console.log(totalPage)
+    }
+    else{
+        totalPage = Math.ceil(precision)
+        // console.log(totalPage)
     }
     if (previous == null) {
         pageNumber = 1;
