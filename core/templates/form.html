@@ -1,12 +1,12 @@
-<form  class="form-control mt-2 mb-0 p-0 "   id="eiou_claim"
-      style="background-color: transparent!important;border: none!important;"  >
+<form class="form-control mt-2 mb-0 p-0 " id="eiou_claim"
+    style="background-color: transparent!important;border: none!important;">
     <div class="row mb-2">
-        <div class="btn-group btn-group-toggle" data-toggle="buttons" >
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
             <span class="input-group-text fs-5" style="width:35%">
                 <i class="text-muted fw-bold fas fa-sliders-h mx-2"></i>
                 Filters
             </span>
-            <label class="btn btn-secondary" id="postValid" >
+            <label class="btn btn-secondary" id="postValid">
                 <input class="align-middle" type="checkbox" id="posts" checked autocomplete="off" name="f" value="p">
                 <span class="align-middle"> Posts</span>
             </label>
@@ -15,6 +15,9 @@
                 <span class="align-middle">Comments</span>
             </label>
         </div>
+        <span id="invalidText1"  class="text-center " style="color: red;  margin-left: 15px; display: none;">
+            Please select atleast one checkbox
+        </span>
     </div>
     <!--
     <div class="row">
@@ -44,25 +47,27 @@
     <button type="submit" class="btn w-100 py-2 btn-sm btn-primary">
         SEARCH <i class="fas fa-search"></i>
     </button> -->
-     <div class="row">
+    <div class="row">
         <div class="col-12">
             <div class="input-group mb-3 text-center">
-                    <span class="fs-5 ">
-                            <label for="subreddits">
-<select class="form-select" id="subreddits" form="eiou_claim" name="sub">
-    <option selected value="cryptocurrency">r/CryptoCurrency</option>
-    <option value="anime">r/anime</option>
-<!-- <option value="2">Two</option>
+                <span class="fs-5 ">
+                    <label for="subreddits">
+                        <select class="form-select" id="subreddits" form="eiou_claim" name="sub">
+                            <option selected value="cryptocurrency">r/CryptoCurrency</option>
+                            <option value="anime">r/anime</option>
+                            <!-- <option value="2">Two</option>
 <option value="3">Three</option> -->
-</select>
-</label>
-                        </span>
-                <input type="text" class="form-control" id="search"  name="q" placeholder="keyword" >
-
+                        </select>
+                    </label>
+                </span>
+                <input type="text" class="form-control" id="search" name="q" placeholder="keyword">
             </div>
         </div>
+        <span id="invalidText2" class="text-center " style="color: red; margin-top: -18px; margin-bottom: 5px; margin-left: 15px; display: none;">
+            Please enter some Text
+        </span>
     </div>
-    <button type="button"   class="btn w-100 py-2 btn-sm btn-primary" onclick="buttonClick()"  id="submitButton">
+    <button type="button" class="btn w-100 py-2 btn-sm btn-primary" onclick="buttonClick()" id="submitButton">
         SEARCH <i class="fas fa-search"></i>
     </button>
 </form>
