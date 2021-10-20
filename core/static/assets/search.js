@@ -50,7 +50,8 @@ window.onload = () => {
         }
         document.getElementById('search').value = query;
         document.getElementById('subreddits').value = sub;
-        apiCall(url, sub)
+        let start = performance.now()
+        apiCall(url, sub, start)
     }
 }
 
@@ -76,7 +77,8 @@ function buttonClick() {
         history.pushState(null, "", '/search?f=' + filterValue + '&sub=' + form + '&q=' + search + '&page=1');
         let url = window.location.href
         url = url.split('?').pop();
-        apiCall(url)
+        let start = performance.now()
+        apiCall(url, start)
     }
     else validation();
 }
@@ -87,8 +89,11 @@ function clearBox(elementID) {
     document.getElementById(elementID).style = "";
 }
 
+function executionTime(sec){
+    document.getElementById('execTime').innerHTML = 'Execution: '+ sec;
+}
 // api call function
-function apiCall(url, sub) {
+function apiCall(url, sub, start) {
     validation();
     clearBox('postBox')
     clearBox('commentBox')
@@ -105,6 +110,14 @@ function apiCall(url, sub) {
         .then(response => response.json())
         .then(data => {
             document.getElementById('loading').style.display = "none";
+            let end = performance.now()
+            end = end - start
+            let precision = Math.round(end)
+            // let min = Math.floor((end / 1000 / 60) << 0)
+            let sec = Math.floor((end / 1000) % 60);
+            // console.log(sec+ '.'+ precision+' seconds');
+            sec = sec+ '.'+ precision+' seconds'
+            executionTime(sec)
             dataCollection(data);
             dataAppender(data, sub);
         });
@@ -132,7 +145,7 @@ function dataCollection(data) {
 
     // to find the page number and total pages
     let page = count / paginatedValue
-    let precision = Math.round(page*100)/100;
+    let precision = Math.round(page * 100) / 100;
     let precisionDecimalval = precision - Math.floor(precision);
     //if remaining objects in database is less than or equal to paginatedOrphan + paginatedValue then count of data will be paginatedValue + paginatedOrphan 
     let n = Math.floor((paginatedValue + paginatedOrphan) / paginatedValue)
@@ -294,7 +307,7 @@ function dataAppender(data, _sub) {
         }
         upVotes = datas[i].upvotes;//upvotes from the data
         username = datas[i].username;//username
-        
+
         //used to append div inside the data appender function
         let getElementFromString = (string) => {
             let div = document.createElement('div');
