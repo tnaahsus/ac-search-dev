@@ -50,8 +50,7 @@ window.onload = () => {
         }
         document.getElementById('search').value = query;
         document.getElementById('subreddits').value = sub;
-        let start = new Date().getTime()
-        apiCall(url, sub, start)
+        apiCall(url, sub)
     }
 }
 
@@ -77,8 +76,7 @@ function buttonClick() {
         history.pushState(null, "", '/search?f=' + filterValue + '&sub=' + form + '&q=' + search + '&page=1');
         let url = window.location.href
         url = url.split('?').pop();
-        let start = new Date().getTime()
-        apiCall(url, start)
+        apiCall(url)
     }
     else validation();
 }
@@ -93,7 +91,9 @@ function executionTime(sec){
     document.getElementById('execTime').innerHTML = 'Execution: '+ sec;
 }
 // api call function
-function apiCall(url, sub, start) {
+function apiCall(url, sub) {
+    let startSec = new Date().getSeconds();
+    let startMilisec = new Date().getMilliseconds();
     validation();
     clearBox('postBox')
     clearBox('commentBox')
@@ -110,14 +110,13 @@ function apiCall(url, sub, start) {
         .then(response => response.json())
         .then(data => {
             document.getElementById('loading').style.display = "none";
-            let end =new Date().getTime()
-            end = end - start
-            let precision = Math.round(end)
-            // let min = Math.floor((end / 1000 / 60) << 0)
-            let sec = Math.floor((end / 1000) % 60);
-            // console.log(sec+ '.'+ precision+' seconds');
-            sec = sec+ '.'+ precision+' seconds'
-            executionTime(sec)
+            let endSec = new Date().getSeconds();
+            let endMilisec = new Date().getMilliseconds();
+            let sec = endSec - startSec
+            let millisec = endMilisec - startMilisec
+            console.log(sec)
+            millisec = sec+ '.'+ millisec+' seconds'
+            executionTime(millisec)
             dataCollection(data);
             dataAppender(data, sub);
         });
