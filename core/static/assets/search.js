@@ -50,7 +50,7 @@ window.onload = () => {
         }
         document.getElementById('search').value = query;
         document.getElementById('subreddits').value = sub;
-        let start = performance.now()
+        let start = new Date().getTime()
         apiCall(url, sub, start)
     }
 }
@@ -77,7 +77,7 @@ function buttonClick() {
         history.pushState(null, "", '/search?f=' + filterValue + '&sub=' + form + '&q=' + search + '&page=1');
         let url = window.location.href
         url = url.split('?').pop();
-        let start = performance.now()
+        let start = new Date().getTime()
         apiCall(url, start)
     }
     else validation();
@@ -110,7 +110,7 @@ function apiCall(url, sub, start) {
         .then(response => response.json())
         .then(data => {
             document.getElementById('loading').style.display = "none";
-            let end = performance.now()
+            let end =new Date().getTime()
             end = end - start
             let precision = Math.round(end)
             // let min = Math.floor((end / 1000 / 60) << 0)
