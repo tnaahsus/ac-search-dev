@@ -198,10 +198,14 @@ function dataCollection(data) {
         document.getElementById('last').style.display = 'block';
         document.getElementById('first').style.pointerEvents = 'none'
         document.getElementById('previous').style.pointerEvents = 'none'
+        document.getElementById('first').style.opacity = '0'
+        document.getElementById('previous').style.opacity = '0'
     }
     else if (next == null) {
         document.getElementById('next').style.pointerEvents = 'none'
         document.getElementById('last').style.pointerEvents = 'none'
+        document.getElementById('next').style.opacity = '0'
+        document.getElementById('last').style.opacity = '0'
         document.getElementById('first').style.display = 'block';
         document.getElementById('previous').style.display = 'block';
     }
