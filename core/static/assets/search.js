@@ -92,8 +92,7 @@ function executionTime(sec){
 }
 // api call function
 function apiCall(url, sub) {
-    let startSec = new Date().getSeconds();
-    let startMilisec = new Date().getMilliseconds();
+    let start = performance.now()
     validation();
     clearBox('postBox')
     clearBox('commentBox')
@@ -110,13 +109,14 @@ function apiCall(url, sub) {
         .then(response => response.json())
         .then(data => {
             document.getElementById('loading').style.display = "none";
-            let endSec = new Date().getSeconds();
-            let endMilisec = new Date().getMilliseconds();
-            let sec = endSec - startSec
-            let millisec = endMilisec - startMilisec
-            console.log(sec)
-            millisec = sec+ '.'+ millisec+' seconds'
-            executionTime(millisec)
+            // console.log(start)
+            let end =performance.now()
+            // console.log(end)
+            let time = end - start
+            time = Math.round(time)
+            let sec = Math.floor((time / 1000) % 60);
+            sec = sec+ '.'+ time+' seconds'
+            executionTime(sec)
             dataCollection(data);
             dataAppender(data, sub);
         });
