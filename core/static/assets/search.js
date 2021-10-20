@@ -132,7 +132,7 @@ function dataCollection(data) {
 
     // to find the page number and total pages
     let page = count / paginatedValue
-    let precision = page.toPrecision(2);
+    let precision = Math.round(page*100)/100;
     let precisionDecimalval = precision - Math.floor(precision);
     //if remaining objects in database is less than or equal to paginatedOrphan + paginatedValue then count of data will be paginatedValue + paginatedOrphan 
     let n = Math.floor((paginatedValue + paginatedOrphan) / paginatedValue)
@@ -353,10 +353,10 @@ function dataAppender(data, _sub) {
     
     <!--                READ MORE AND DATE -->
     <div class="text-end mt-4 mx-2" style="font-size: 0.9rem;">
-    <span class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Created Date" style="font-size: 12px;">
+    <span class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Created Date" style="font-size: 12px; cursor:default;">
           ${date} ${hour}${minutes}               
     </span>
-    <span class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Deleted Date" style="font-size: 12px;">
+    <span class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Deleted Date" style="font-size: 12px; cursor:default;">
         ${deldate} ${delhour}${delminutes} 
         </span>
                         <button   class="nav-toggle  mx-2  border-0 myBtn" style="margin-left: -30px; cursor: pointer;" onclick="myFunction('${post_id}')"  >
@@ -417,10 +417,10 @@ function dataAppender(data, _sub) {
                 <small class="mx-1 "><i class="fas fa-thumbs-up"></i></small>
                   <small class="mt-1 ">${upVotes}</small>
                 </p>
-                <span class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Created Date" style="font-size: 12px;">
+                <span class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Created Date" style="font-size: 12px; cursor:default;">
                         ${date} ${hour}${minutes}
                         </span>
-                        <span class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Deleted Date" style="font-size: 12px;">
+                        <span class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Deleted Date" style="font-size: 12px; cursor:default;">
                         ${deldate} ${delhour}${delminutes} 
                             </span>
                     <button   class="nav-toggle  mx-2 border-0 myBtn " style="cursor:pointer" onclick="myFunction('${comment_id}')"  >
