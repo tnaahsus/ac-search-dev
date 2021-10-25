@@ -1,5 +1,5 @@
-<form class="form-control mt-2 mb-0 p-0 " id="eiou_claim"
-    style="background-color: transparent!important;border: none!important;">
+<form class="form-control mt-2 mb-0 p-0 " id="eiou_claim" 
+    style="background-color: transparent!important;border: none!important;"  onkeypress="handle(event)"   >
     <div class="row mb-2">
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
             <span class="input-group-text fs-5" style="width:35%">
@@ -67,7 +67,8 @@
             Please enter some Text
         </span>
     </div>
-    <button type="button" class="btn w-100 py-2 btn-sm btn-primary" onclick="buttonClick()" id="submitButton">
+    
+    <button type="button" class="btn w-100 py-2 btn-sm btn-primary" onclick="buttonClick()" id="submitButton" onkeypress="handle(event)" >
         SEARCH <i class="fas fa-search"></i>
     </button>
 </form>
