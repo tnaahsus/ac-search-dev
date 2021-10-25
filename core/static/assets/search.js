@@ -1,3 +1,10 @@
+//buttonclick on enter presskey
+function handle(e) {
+    if (e.keyCode === 13) {
+        e.preventDefault();
+        buttonClick()
+    }
+}
 // validation function to check for empty values
 function validation() {
     let search = document.getElementById('search');
@@ -37,6 +44,10 @@ window.onload = () => {
     let query = argArray.has('q') ? argArray.get('q') : '' // if query exists set query='query from url' else ''
     let filter = argArray.has('f') ? argArray.get('f') : ''
     let sub = argArray.has('sub') ? argArray.get('sub') : ''
+    let page = argArray.has('page') ? argArray.get('page') : ''
+    if (page == '') {
+        url = url + '&page=1'
+    }
     //to check the conditions before calling the api
     if (query !== '' && (filter[0] == "c" || filter[0] == "p") && sub !== '') {
         validation();
@@ -50,12 +61,13 @@ window.onload = () => {
         }
         document.getElementById('search').value = query;
         document.getElementById('subreddits').value = sub;
-        apiCall(url, sub)
+        apiCall(sub)
     }
 }
 
 //function after submit button is clicked
 function buttonClick() {
+    console.log('hello')
     let search = document.getElementById('search').value;
     let post = document.getElementById('posts');
     let comment = document.getElementById('comments');
@@ -74,9 +86,8 @@ function buttonClick() {
     //to check the conditions before calling the api
     if (search != '' && (post.checked || comment.checked) && form != '') {
         history.pushState(null, "", '/search?f=' + filterValue + '&sub=' + form + '&q=' + search + '&page=1');
-        let url = window.location.href
-        url = url.split('?').pop();
-        apiCall(url)
+        apiCall()
+
     }
     else validation();
 }
@@ -87,17 +98,27 @@ function clearBox(elementID) {
     document.getElementById(elementID).style = "";
 }
 
-function executionTime(sec){
-    document.getElementById('execTime').innerHTML = 'Execution: '+ sec;
+function executionTime(sec) {
+    document.getElementById('execTime').innerHTML = 'Execution: ' + sec;
 }
 // api call function
-function apiCall(url, sub) {
+function apiCall(sub) {
+    let url = window.location.href;
+    url = url.split('?').pop();
     let start = performance.now()
     validation();
     clearBox('postBox')
     clearBox('commentBox')
     clearBox('pagination')
     clearBox('results')
+    const argArray = new URLSearchParams(url)
+    let page = argArray.has('page') ? argArray.get('page') : ''
+    if (page == '') {
+        let url1 = 'search?' + url + '&page=1'
+        history.pushState(null, "", url1);
+        url =  url + '&page=1'
+        // console.log(url)
+    }
     document.getElementById('loading').style.display = "block";
     fetch('/api?' + url, {
         method: 'GET',
@@ -110,12 +131,12 @@ function apiCall(url, sub) {
         .then(data => {
             document.getElementById('loading').style.display = "none";
             // console.log(start)
-            let end =performance.now()
+            let end = performance.now()
             // console.log(end)
             let time = end - start
             time = Math.round(time)
             let sec = Math.floor((time / 1000) % 60);
-            sec = sec+ '.'+ time+' seconds'
+            sec = sec + '.' + time + ' seconds'
             executionTime(sec)
             dataCollection(data);
             dataAppender(data, sub);
