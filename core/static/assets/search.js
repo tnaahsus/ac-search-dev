@@ -1,4 +1,4 @@
-//buttonclick on enter presskey
+//button click on enter press
 function handle(e) {
     if (e.keyCode === 13) {
         e.preventDefault();
@@ -12,7 +12,7 @@ function validation() {
     let comment = document.getElementById('comments');
     let postValid = document.getElementById('postValid');
     let commentValid = document.getElementById('commentValid');
-    if (search.value == '') {
+    if (search.value === '') {
         search.style.border = '2px solid red'
         document.getElementById('invalidText2').style.display = 'block'
     }
@@ -21,7 +21,7 @@ function validation() {
         document.getElementById('invalidText2').style.display = 'none'
 
     }
-    if (post.checked == false && comment.checked == false) {
+    if (post.checked === false && comment.checked === false) {
         postValid.style.border = '2px solid red'
         commentValid.style.border = '2px solid red'
         document.getElementById('invalidText1').style.display = 'block'
@@ -44,10 +44,6 @@ window.onload = () => {
     let query = argArray.has('q') ? argArray.get('q') : '' // if query exists set query='query from url' else ''
     let filter = argArray.has('f') ? argArray.get('f') : ''
     let sub = argArray.has('sub') ? argArray.get('sub') : ''
-    let page = argArray.has('page') ? argArray.get('page') : ''
-    if (page == '') {
-        url = url + '&page=1'
-    }
     //to check the conditions before calling the api
     if (query !== '' && (filter[0] == "c" || filter[0] == "p") && sub !== '') {
         validation();
@@ -61,13 +57,12 @@ window.onload = () => {
         }
         document.getElementById('search').value = query;
         document.getElementById('subreddits').value = sub;
-        apiCall(sub)
+        apiCall()
     }
 }
 
 //function after submit button is clicked
 function buttonClick() {
-    console.log('hello')
     let search = document.getElementById('search').value;
     let post = document.getElementById('posts');
     let comment = document.getElementById('comments');
@@ -102,7 +97,7 @@ function executionTime(sec) {
     document.getElementById('execTime').innerHTML = 'Execution: ' + sec;
 }
 // api call function
-function apiCall(sub) {
+function apiCall() {
     let url = window.location.href;
     url = url.split('?').pop();
     let start = performance.now()
@@ -113,7 +108,7 @@ function apiCall(sub) {
     clearBox('results')
     const argArray = new URLSearchParams(url)
     let page = argArray.has('page') ? argArray.get('page') : ''
-    if (page == '') {
+    if (page === '') {
         let url1 = 'search?' + url + '&page=1'
         history.pushState(null, "", url1);
         url =  url + '&page=1'
@@ -139,7 +134,7 @@ function apiCall(sub) {
             sec = sec + '.' + time + ' seconds'
             executionTime(sec)
             dataCollection(data);
-            dataAppender(data, sub);
+            dataAppender(data);
         });
 }
 
@@ -148,17 +143,17 @@ function dataCollection(data) {
     let previous = data.prev
     let next = data.next
     let count = data.count
-    let paginatedValue = 3;
-    let paginatedOrphan = 1;
+    let paginatedValue = 25;
+    let paginatedOrphan = 4;
     let totalPage;
     let pageNumber;
-    // to display the next, previous, last and first 
+    // to display the next, previous, last and first
     document.getElementById('next').style.display = 'block';
     document.getElementById('last').style.display = 'block';
     document.getElementById('first').style.display = 'block';
     document.getElementById('previous').style.display = 'block';
 
-    //for result found in the content section 
+    //for result found in the content section
     if (count != 0) {
         document.getElementById('results').innerHTML += count + ' results found'
     }
@@ -167,7 +162,7 @@ function dataCollection(data) {
     let page = count / paginatedValue
     let precision = Math.round(page * 100) / 100;
     let precisionDecimalval = precision - Math.floor(precision);
-    //if remaining objects in database is less than or equal to paginatedOrphan + paginatedValue then count of data will be paginatedValue + paginatedOrphan 
+    //if remaining objects in database is less than or equal to paginatedOrphan + paginatedValue then count of data will be paginatedValue + paginatedOrphan
     let n = Math.floor((paginatedValue + paginatedOrphan) / paginatedValue)
     n = ((paginatedValue + paginatedOrphan) / paginatedValue) - n
     //Calculation for total pages
@@ -231,7 +226,7 @@ function dataCollection(data) {
         document.getElementById('previous').style.display = 'block';
     }
 
-    //to send href to the a tag of next,last,previousand first according to the page number
+    //to send href to the a tag of next,last,previous and first according to the page number
     let url = window.location.href
     url = url.replace(/&page.+$/, `&page=${pageNumber + 1}`)
     document.getElementById('next').href = url
@@ -243,7 +238,7 @@ function dataCollection(data) {
     document.getElementById('first').href = url
 }
 
-// function to control readmore and read less inside the div
+// function to control read more and read less inside the div
 function myFunction(id) {
     let dots = document.querySelector(` .card[data="${id}"] .dots`);
     let moreText = document.querySelector(`.card[data="${id}"] .more`);
@@ -263,7 +258,7 @@ function myFunction(id) {
 }
 
 // function to append the div inside the content according to the results
-function dataAppender(data, _sub) {
+function dataAppender(data,) {
     let datas = data.data
     let title;
     let type;
@@ -275,15 +270,16 @@ function dataAppender(data, _sub) {
     let deleteDate;
     let imageUrl;
     let upVotes;
-    let sub = _sub;
+    let sub;
     // for loop to show the values in different div tag
     for (var i = 0; i < datas.length; i++) {
         type = datas[i].type; //type of data (post or comment)
         post_id = datas[i].post_id; //PostID from the data
         comment_id = datas[i].comment_id;//CommentID from the data
-        //text and title 
+        //text and title
         title = datas[i].title;
         text = datas[i].text;
+        sub = datas[i].sub;
         let shortText = text.slice(0, 150)//shortening the text for comment section
         //distributing date according to create and delete date
         //createDate
@@ -308,7 +304,7 @@ function dataAppender(data, _sub) {
         let delhour;
         let delminutes;
         deleteDate = datas[i].delete_date;
-        if (deleteDate == null) {
+        if (deleteDate === null) {
             deldate = ''
             delhour = ''
             delminutes = ''
@@ -324,7 +320,7 @@ function dataAppender(data, _sub) {
         imageUrl = datas[i].image_url;
         let image
         if (imageUrl == null) {
-            image = 'https://cdn-icons-png.flaticon.com/512/2749/2749271.png'
+            image = '/static/assets/not-found.png'
         }
         else {
             image = imageUrl
@@ -366,7 +362,7 @@ function dataAppender(data, _sub) {
             
             <!--                    THUMBNAIL -->
                 <div class="col-3  text-center">
-                <img class="img thumbnail" width='75px' height="55px"
+                <img class="img thumbnail bg-light" width='75px' height="55px"
                 src=${image} alt="Image not found" />
                     <p class="text-muted mb-0 p-0 me-5 ">
                     </p>
@@ -390,10 +386,10 @@ function dataAppender(data, _sub) {
     
     <!--                READ MORE AND DATE -->
     <div class="text-end mt-4 mx-2" style="font-size: 0.9rem;">
-    <span class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Created Date" style="font-size: 12px; cursor:default;">
+    <span class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Create Date" style="font-size: 12px; cursor:default;">
           ${date} ${hour}${minutes}               
     </span>
-    <span class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Deleted Date" style="font-size: 12px; cursor:default;">
+    <span class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Date" style="font-size: 12px; cursor:default;">
         ${deldate} ${delhour}${delminutes} 
         </span>
                         <button   class="nav-toggle  mx-2  border-0 myBtn" style="margin-left: -30px; cursor: pointer;" onclick="myFunction('${post_id}')"  >
@@ -454,10 +450,10 @@ function dataAppender(data, _sub) {
                 <small class="mx-1 "><i class="fas fa-thumbs-up"></i></small>
                   <small class="mt-1 ">${upVotes}</small>
                 </p>
-                <span class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Created Date" style="font-size: 12px; cursor:default;">
+                <span class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Create Date" style="font-size: 12px; cursor:default;">
                         ${date} ${hour}${minutes}
                         </span>
-                        <span class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Deleted Date" style="font-size: 12px; cursor:default;">
+                        <span class="text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Date" style="font-size: 12px; cursor:default;">
                         ${deldate} ${delhour}${delminutes} 
                             </span>
                     <button   class="nav-toggle  mx-2 border-0 myBtn " style="cursor:pointer" onclick="myFunction('${comment_id}')"  >
