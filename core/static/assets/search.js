@@ -1,3 +1,30 @@
+//toggle switch between dark and light mode
+const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+let image
+function switchTheme(e) {
+    apiCall();
+    var body = document.getElementsByTagName('body')[0];
+    var light = $('#light-mode')
+    var dark = $('#dark-mode')
+    image = 'white'
+
+    if (e.target.checked) {
+        body.setAttribute('data-theme', 'dark');
+        light.removeAttr('hidden')
+        dark.attr('hidden', true)
+        image = 'dark'
+    }
+    else {
+        body.setAttribute('data-theme', 'light');
+        light.attr('hidden', true)
+        dark.removeAttr('hidden')
+        image = 'white'
+    }
+
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+
 //button click on enter press
 function handle(e) {
     if (e.keyCode === 13) {
@@ -258,7 +285,7 @@ function myFunction(id) {
 }
 
 // function to append the div inside the content according to the results
-function dataAppender(data,) {
+function dataAppender(data) {
     let datas = data.data
     let title;
     let type;
@@ -318,13 +345,16 @@ function dataAppender(data,) {
         }
         //Image for the post tag
         imageUrl = datas[i].image_url;
-        let image
+        let mode = image
         if (imageUrl == null) {
-            image = '/static/assets/not-found.png'
+             if(mode == 'dark'){
+                 imageUrl = '/static/assets/notfound.png'
+             }
+             else{
+                imageUrl = '/static/assets/not-found.png'
+             }
         }
-        else {
-            image = imageUrl
-        }
+        
         upVotes = datas[i].upvotes;//upvotes from the data
         username = datas[i].username;//username
 
@@ -362,8 +392,8 @@ function dataAppender(data,) {
             
             <!--                    THUMBNAIL -->
                 <div class="col-3  text-center">
-                <img class="img thumbnail bg-light" width='75px' height="55px"
-                src=${image} alt="Image not found" />
+                <img class="img thumbnail" width='75px' height="55px"
+                src=${imageUrl} alt="Image not found" />
                     <p class="text-muted mb-0 p-0 me-5 ">
                     </p>
                     <small class="mx-1  mb-0 p-0 "><i class="fas fa-thumbs-up"></i></small>
