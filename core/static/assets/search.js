@@ -2,7 +2,16 @@
 const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
 let image
 function switchTheme(e) {
-    apiCall();
+    let url = window.location.href;
+    url = url.split('?').pop();
+    const argArray = new URLSearchParams(url)
+    let query = argArray.has('q') ? argArray.get('q') : '' // if query exists set query='query from url' else ''
+    let filter = argArray.has('f') ? argArray.get('f') : ''
+    let sub = argArray.has('sub') ? argArray.get('sub') : ''
+    //to check the conditions before calling the api
+    if (query !== '' && (filter[0] == "c" || filter[0] == "p") && sub !== '') {
+        apiCall()
+    }
     var body = document.getElementsByTagName('body')[0];
     var light = $('#light-mode')
     var dark = $('#dark-mode')
@@ -22,7 +31,6 @@ function switchTheme(e) {
     }
 
 }
-
 toggleSwitch.addEventListener('change', switchTheme, false);
 
 //button click on enter press
@@ -348,10 +356,10 @@ function dataAppender(data) {
         let mode = image
         if (imageUrl == null) {
              if(mode == 'dark'){
-                 imageUrl = '/static/assets/notfound.png'
+                 imageUrl = '/static/assets/imgs/notfound_dark.png'
              }
              else{
-                imageUrl = '/static/assets/not-found.png'
+                imageUrl = '/static/assets/imgs/notfound_light.png'
              }
         }
         
