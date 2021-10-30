@@ -395,6 +395,10 @@ function dataAppender(data) {
     <a href="https://reddit.com/r/${sub}/comments/${post_id}" target="_blank" class="a-comment">
     <span class="">View on Reddit</span>
     </a>
+    <a href="https://reveddit.com/r/${sub}/comments/${post_id}" target="_blank" class="a-comment float-end mt-1">
+    <i class="fas fa-sign-out-alt"></i>
+    <span class="">View on Reveddit</span>
+    </a>
             </p>
             <div class="row">
             
@@ -463,6 +467,10 @@ function dataAppender(data) {
     <a href="https://reddit.com/r/${sub}/comments/${post_id}/_/${comment_id}" target="_blank" class="a-comment">
                         <span class="">View on Reddit</span>
                     </a>
+                    <a href="https://reveddit.com/r/${sub}/comments/${post_id}/_/${comment_id}" target="_blank" class="a-comment float-end mt-1">
+    <i class="fas fa-sign-out-alt"></i>
+    <span class="">View on Reveddit</span>
+    </a>
                     </p>
     
                     
