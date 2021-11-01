@@ -55,6 +55,7 @@
                             {% for sub in subs %}
                                 <option selected value={{sub}}>r/{{sub | title}}</option>
                             {% endfor %}
+                            
                         </select>
                     </label>
                 </span>
@@ -69,10 +70,10 @@
     <div class="row">
         <div class="col-xs-2">
             <div class="input-group mb-3 text-center" >
-                <span class="input-group-text " style="width:115px; height: 36px;" >
+                <span class="input-group-text " style="width:34%; height: 36px; cursor: default;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Minimum upvotes" >
                     UpVotes
                 </span>
-                <input style="width:73px; " class="border border-secondary" min="0" id="upS" name="form-0-quantity" value="5" type="number">
+                <input style="width:73px; border-radius: 2px; "  class="border border-secondary text-center " id="upS" name="form-0-quantity" value="5" type="number">
             </div>
         </div>
     </div>
