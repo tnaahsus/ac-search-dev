@@ -2,15 +2,13 @@
 const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
 let image
 function switchTheme(e) {
-    let url = window.location.href;
-    url = url.split('?').pop();
-    const argArray = new URLSearchParams(url)
-    let query = argArray.has('q') ? argArray.get('q') : '' // if query exists set query='query from url' else ''
-    let filter = argArray.has('f') ? argArray.get('f') : ''
-    let sub = argArray.has('sub') ? argArray.get('sub') : ''
+    let search = document.getElementById('search').value;
+    let post = document.getElementById('posts');
+    let comment = document.getElementById('comments');
+    let form = document.getElementById('subreddits').value;
     //to check the conditions before calling the api
-    if (query !== '' && (filter[0] == "c" || filter[0] == "p") && sub !== '') {
-        apiCall()
+    if (search !== '' && (post.checked || comment.checked) && form !== '') {
+        apiCall();
     }
     var body = document.getElementsByTagName('body')[0];
     var light = $('#light-mode')
@@ -31,6 +29,7 @@ function switchTheme(e) {
     }
 
 }
+
 toggleSwitch.addEventListener('change', switchTheme, false);
 
 //button click on enter press
@@ -79,6 +78,11 @@ window.onload = () => {
     let query = argArray.has('q') ? argArray.get('q') : '' // if query exists set query='query from url' else ''
     let filter = argArray.has('f') ? argArray.get('f') : ''
     let sub = argArray.has('sub') ? argArray.get('sub') : ''
+    let ups = argArray.has('ups') ? argArray.get('ups') : ''
+    console.log(ups)
+    if(ups == ''){
+        ups = 5 ;
+    }
     //to check the conditions before calling the api
     if (query !== '' && (filter[0] == "c" || filter[0] == "p") && sub !== '') {
         validation();
@@ -92,6 +96,7 @@ window.onload = () => {
         }
         document.getElementById('search').value = query;
         document.getElementById('subreddits').value = sub;
+        document.getElementById('upS').value = ups;
         apiCall()
     }
 }
@@ -102,6 +107,8 @@ function buttonClick() {
     let post = document.getElementById('posts');
     let comment = document.getElementById('comments');
     let form = document.getElementById('subreddits').value;
+    let ups = document.getElementById('upS').value;
+    console.log(ups)
     let filterValue;
     //to check the conditions before pushing the url
     if (post.checked && comment.checked) {
@@ -114,8 +121,8 @@ function buttonClick() {
         filterValue = 'c'
     }
     //to check the conditions before calling the api
-    if (search != '' && (post.checked || comment.checked) && form != '') {
-        history.pushState(null, "", '/search?f=' + filterValue + '&sub=' + form + '&q=' + search + '&page=1');
+    if (search !== '' && (post.checked || comment.checked) && form !== '') {
+        history.pushState(null, "", '/search?f=' + filterValue + '&sub=' + form + '&q=' + search + '&ups=' +ups+'&page=1');
         apiCall()
 
     }
@@ -147,7 +154,6 @@ function apiCall() {
         let url1 = 'search?' + url + '&page=1'
         history.pushState(null, "", url1);
         url =  url + '&page=1'
-        // console.log(url)
     }
     document.getElementById('loading').style.display = "block";
     fetch('/api?' + url, {
@@ -313,9 +319,10 @@ function dataAppender(data) {
         comment_id = datas[i].comment_id;//CommentID from the data
         //text and title
         title = datas[i].title;
-        text = datas[i].text;
         sub = datas[i].sub;
-        let shortText = text.slice(0, 150)//shortening the text for comment section
+        text = datas[i].text;
+        let text2 = text.replace( /(<([^>]+)>)/ig, '')
+        let shortText = text2.slice(0, 150)//shortening the text for comment section
         //distributing date according to create and delete date
         //createDate
         createDate = datas[i].create_date;
@@ -362,7 +369,7 @@ function dataAppender(data) {
                 imageUrl = '/static/assets/imgs/notfound_light.png'
              }
         }
-        
+
         upVotes = datas[i].upvotes;//upvotes from the data
         username = datas[i].username;//username
 
@@ -467,7 +474,7 @@ function dataAppender(data) {
     <a href="https://reddit.com/r/${sub}/comments/${post_id}/_/${comment_id}" target="_blank" class="a-comment">
                         <span class="">View on Reddit</span>
                     </a>
-                    <a href="https://reveddit.com/r/${sub}/comments/${post_id}/_/${comment_id}" target="_blank" class="a-comment float-end mt-1">
+    <a href="https://reveddit.com/r/${sub}/comments/${post_id}/_/${comment_id}" target="_blank" class="a-comment float-end mt-1">
     <i class="fas fa-sign-out-alt"></i>
     <span class="">View on Reveddit</span>
     </a>
